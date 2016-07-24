@@ -1,0 +1,8 @@
+@import "../../styles/vars/colors";
+
+.leftSidebar {
+  position: fixed;
+  height: 100%;
+  background: $dark-grey;
+  transition: width .3s ease-out;
+}
