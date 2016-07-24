@@ -1,11 +1,25 @@
+// import from vendors
 import React from 'react';
 import { IndexRoute, Route } from 'react-router';
+
+// import from containers
 import {
   Home,
   NotFound,
 } from '../containers';
+
 import AppLayout from '../layouts/AppLayout';
 import routeFactories from './routeFactories';
+
+// import from components
+import {
+  RightSidebar
+} from '../components';
+
+// import from utils
+import { createComponent } from '../utils/component';
+
+const rightSidebar = (props = { components: [] }) => createComponent(RightSidebar, props);
 
 export default () => {
   /**
@@ -13,8 +27,12 @@ export default () => {
    */
   return (
     <Route path={routeFactories.indexRoute()} component={AppLayout}>
-      { /* Home (main) route */ }
-      <IndexRoute component={Home} />
+      <IndexRoute
+        components={{
+          center: Home,
+          right: rightSidebar()
+        }}
+      />
 
       { /* Routes */ }
 
