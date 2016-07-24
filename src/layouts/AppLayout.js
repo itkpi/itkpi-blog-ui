@@ -1,7 +1,7 @@
 import React, { PropTypes as toBe } from 'react';
 import Helmet from 'react-helmet';
 import config from '../config';
-
+import { Footer } from '../components';
 import '../styles/global.scss';
 
 export default class AppLayout extends React.Component {
@@ -49,6 +49,7 @@ export default class AppLayout extends React.Component {
         { this.renderCenter() }
         { this.renderRightSidebar() }
 
+        <Footer/>
       </div>
     );
   }

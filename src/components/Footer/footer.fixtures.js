@@ -1,12 +1,12 @@
-export const defaultProps = {
-  icons: {
-    vk: {
+export default {
+  icons: [
+    {
       link: 'link',
       src: 'src.svg'
     },
-    fb: {
+    {
       ink: 'link',
       src: 'fb.svg'
     }
-  }
+  ]
 };
