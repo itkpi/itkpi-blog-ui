@@ -13,13 +13,14 @@ import routeFactories from './routeFactories';
 
 // import from components
 import {
-  RightSidebar
+  RightSidebar,
+  Ad
 } from '../components';
 
 // import from utils
 import { createComponent } from '../utils/component';
 
-const rightSidebar = (props = { components: [] }) => createComponent(RightSidebar, props);
+const rightSidebar = (props = { components: [Ad] }) => createComponent(RightSidebar, props);
 
 export default () => {
   /**
