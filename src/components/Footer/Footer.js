@@ -1,18 +1,18 @@
 import React, { PropTypes as toBe } from 'react';
 
 import fixtures from './footer.fixtures.js';
-import classes from './Footer.scss';
+import classes from './footer.scss';
 import { IconLink } from '../';
 
 export default class Footer extends React.Component {
 
   static propTypes = {
     icons: toBe.array
-  }
+  };
 
   static defaultProps = {
     ...fixtures
-  }
+  };
 
   renderIcons() {
     const { icons } = this.props;
