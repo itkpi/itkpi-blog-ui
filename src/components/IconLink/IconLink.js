@@ -10,8 +10,7 @@ export default class IconLink extends React.Component {
   };
 
   render() {
-    const href = this.props.href;
-    const src = this.props.src;
+    const { href, src } = this.props;
     return (
       <a className={styles.iconLink} href={href}>
         <img className={styles.icon} src={src} />

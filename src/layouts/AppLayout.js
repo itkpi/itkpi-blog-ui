@@ -53,7 +53,6 @@ export default class AppLayout extends React.Component {
         <LeftSidebar />
         { this.renderCenter() }
         { this.renderRightSidebar() }
-
         <Footer/>
       </div>
     );
