@@ -14,7 +14,7 @@ export default class Ad extends React.Component {
   };
 
   renderAd() {
-    const { imageSrc, text} = this.props;
+    const { imageSrc, text } = this.props;
     return imageSrc
       ? <img src={imageSrc} />
       : <div className={classes.text}>{ text }</div>;
