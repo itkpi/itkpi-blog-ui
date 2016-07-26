@@ -1,8 +1,16 @@
 .appLayout {
-
+  height: 100vh;
   > .pageContainer {
-    max-width: 1200px; // TODO: move it to constants later.
+    // max-width: 1200px; // TODO: move it to constants later.
+    height: 100%;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    > .main {
+      padding-right: 2rem;
+      padding-left: calc(2rem + 95px);
+    }
   }
 
   > .centerContainer {

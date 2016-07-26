@@ -56,17 +56,17 @@ export default class AppLayout extends React.Component {
   }
 
   render() {
-    const pageContainerClassName = classNames(classes.pageContainer, fbgClasses.containerFluid);
-
     return (
       <div className={classes.appLayout}>
         <Helmet { ...config.app.head } />
         <LeftSidebar />
-        <div className={pageContainerClassName}>
-          <div className={fbgClasses.row}>
-            { this.renderCenter() }
-            { this.renderRightSidebar() }
-          </div>
+        <div className={classes.pageContainer}>
+          <main className={classes.main}>
+            <div className={fbgClasses.row}>
+              { this.renderCenter() }
+              { this.renderRightSidebar() }
+            </div>
+          </main>
           <Footer/>
         </div>
       </div>
