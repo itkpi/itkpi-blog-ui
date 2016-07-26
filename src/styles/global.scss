@@ -1,7 +1,6 @@
 // imports from node_modules. by default webpack also search in the node_modules dir.
 @import "normalize.css/normalize.css";
-@import "flexboxgrid/dist/flexboxgrid.min.css";
-
+@import "flexboxgrid-sass/dist/flexboxgrid.css";
 
 @import "./vars/colors";
 
