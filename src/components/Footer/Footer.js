@@ -33,7 +33,7 @@ export default class Footer extends React.Component {
           { this.renderIcons() }
         </div>
         <div className={classes.copyright}>
-          Copyright 2016. IT KPI. All Rights Reserved.
+          Copyright © 2016. IT KPI. All Rights Reserved.
         </div>
       </footer>
     );

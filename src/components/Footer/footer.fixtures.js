@@ -1,12 +1,12 @@
 export default {
   icons: [
     {
-      link: 'link',
-      src: 'src.svg'
+      link: '',
+      src: 'twitter.svg'
     },
     {
-      link: 'link',
-      src: 'fb.svg'
+      link: '',
+      src: 'facebook.svg'
     }
   ]
 };
