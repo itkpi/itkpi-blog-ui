@@ -54,7 +54,7 @@ export default class Root extends Component {
           { this.renderStyles() }
         </head>
         <body>
-          <div id="content" dangerouslySetInnerHTML={{ __html: content }} />
+          <div id="app-root" dangerouslySetInnerHTML={{ __html: content }} />
           <script
             dangerouslySetInnerHTML={{ __html: `window.__data=${serialize(store.getState())};` }}
             charSet="UTF-8"

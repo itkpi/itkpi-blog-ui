@@ -5,7 +5,7 @@ export default {
       src: 'src.svg'
     },
     {
-      ink: 'link',
+      link: 'link',
       src: 'fb.svg'
     }
   ]
