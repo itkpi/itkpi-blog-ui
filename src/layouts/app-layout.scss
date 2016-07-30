@@ -1,24 +1,26 @@
+@import "../styles/vars/sizes";
+
 .appLayout {
   height: 100vh;
-  > .pageContainer {
-    // max-width: 1200px; // TODO: move it to constants later.
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  > .page,
+  > .footer {
+    padding-left: $sidebar-normal-size;
+  }
+
+  > .page {
     height: 100%;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    padding-left: $sidebar-normal-size;
+
     > .main {
-      padding-right: 2rem;
-      padding-left: calc(2rem + 95px);
+      padding: 0 2rem 0;
     }
-  }
 
-  > .centerContainer {
-
-  }
-
-  > .rightContainer {
-
+    .center {  }
+    .right {  }
   }
 
 }

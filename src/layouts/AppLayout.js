@@ -30,10 +30,10 @@ export default class AppLayout extends React.Component {
 
     if (!right) { return null; }
 
-    const rightContainerClassNames = classNames(classes.rightContainer, fbgClasses.colLg3);
+    const rightClassNames = classNames(classes.right, fbgClasses.colLg3);
 
     return (
-      <div className={rightContainerClassNames}>
+      <div className={rightClassNames}>
         { right }
       </div>
     );
@@ -42,14 +42,14 @@ export default class AppLayout extends React.Component {
   renderCenter() {
     const { center, right, children } = this.props;
 
-    const centerContainerClassNames = classNames(
-      classes.centerContainer,
+    const centerClassNames = classNames(
+      classes.center,
       { [fbgClasses.colLg12]: !right },
       { [fbgClasses.colLg9]: !!right },
     );
 
     return (
-      <div className={centerContainerClassNames}>
+      <div className={centerClassNames}>
         { center ? center : children }
       </div>
     );
@@ -59,15 +59,20 @@ export default class AppLayout extends React.Component {
     return (
       <div className={classes.appLayout}>
         <Helmet { ...config.app.head } />
+
         <LeftSidebar />
-        <div className={classes.pageContainer}>
+
+        <div className={classes.page}>
           <main className={classes.main}>
             <div className={fbgClasses.row}>
               { this.renderCenter() }
               { this.renderRightSidebar() }
             </div>
           </main>
-          <Footer/>
+        </div>
+
+        <div className={classes.footer}>
+          <Footer />
         </div>
       </div>
     );
