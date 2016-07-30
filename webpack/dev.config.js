@@ -4,9 +4,12 @@ require('babel-polyfill');
 var fs = require('fs');
 var path = require('path');
 var webpack = require('webpack');
-var assetsPath = path.resolve(__dirname, '../static/dist');
 var host = (process.env.HOST || 'localhost');
 var port = (+process.env.PORT + 1) || 3001;
+
+var projectRootPath = path.resolve(__dirname, '../');
+var srcPath = path.resolve(projectRootPath, 'src');
+var distPath = path.resolve(projectRootPath, 'static/dist');
 
 // https://github.com/halt-hammerzeit/webpack-isomorphic-tools
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
@@ -71,14 +74,18 @@ module.exports = {
     ]
   },
   output: {
-    path: assetsPath,
+    path: distPath,
     filename: '[name]-[hash].js',
     chunkFilename: '[name]-[chunkhash].js',
     publicPath: 'http://' + host + ':' + port + '/dist/'
   },
   module: {
     loaders: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loaders: ['babel?' + JSON.stringify(babelLoaderQuery), 'eslint-loader']},
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        loaders: ['babel?' + JSON.stringify(babelLoaderQuery), 'eslint-loader']
+      },
       { test: /\.json$/, loader: 'json-loader' },
       {
         test: /\.scss$/,
@@ -86,7 +93,7 @@ module.exports = {
           'style-loader',
           'css-loader?modules&importLoaders=2&sourceMap&localIdentName=[local]___[hash:base64:5]',
           'autoprefixer-loader?browsers=last 2 version',
-          'sass-loader?outputStyle=expanded&sourceMap'
+          'sass-loader?outputStyle=expanded&sourceMap&includePaths[]=' + srcPath
         ]
       },
       { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" },
@@ -103,7 +110,18 @@ module.exports = {
       'src',
       'node_modules'
     ],
-    extensions: ['', '.json', '.js', '.jsx']
+    extensions: ['', '.json', '.js', '.jsx'],
+    alias: {
+      components: path.resolve(srcPath, 'components'),
+      constants: path.resolve(srcPath, 'constants'),
+      containers: path.resolve(srcPath, 'containers'),
+      helpers: path.resolve(srcPath, 'helpers'),
+      layouts: path.resolve(srcPath, 'layouts'),
+      reducers: path.resolve(srcPath, 'reducers'),
+      routes: path.resolve(srcPath, 'routes'),
+      styles: path.resolve(srcPath, 'styles'),
+      utils: path.resolve(srcPath, 'utils')
+    }
   },
   plugins: [
     // hot reload

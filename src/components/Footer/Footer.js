@@ -1,8 +1,9 @@
 import React, { PropTypes as toBe } from 'react';
 
+import { IconLink } from 'components';
+
 import fixtures from './footer.fixtures.js';
 import classes from './footer.scss';
-import { IconLink } from '../';
 
 export default class Footer extends React.Component {
 

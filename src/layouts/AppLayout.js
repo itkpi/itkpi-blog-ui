@@ -1,15 +1,15 @@
 import React, { PropTypes as toBe } from 'react';
 import Helmet from 'react-helmet';
-import config from '../config';
+import config from 'config';
 import classNames from 'classnames';
 
 import {
   LeftSidebar,
   Footer
-} from '../components';
+} from 'components';
 
 import classes from './app-layout.scss';
-import { fbgClasses } from '../constants/css-classes';
+import { fbgClasses } from 'constants/css-classes';
 
 export default class AppLayout extends React.Component {
 
