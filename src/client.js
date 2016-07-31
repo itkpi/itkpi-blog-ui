@@ -5,15 +5,15 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import createStore from './store';
-import ApiClient from './helpers/ApiClient';
+import ApiClient from 'helpers/ApiClient';
 import { Provider } from 'react-redux';
 import { Router, browserHistory } from 'react-router';
 import { syncHistoryWithStore } from 'react-router-redux';
 import { ReduxAsyncConnect } from 'redux-connect';
 import useScroll from 'scroll-behavior/lib/useStandardScroll';
-import './styles/global.scss';
+import 'styles/global.scss';
 
-import getRoutes from './routes/routes';
+import getRoutes from 'routes/routes';
 
 const client = new ApiClient();
 const _browserHistory = useScroll(() => browserHistory)();
