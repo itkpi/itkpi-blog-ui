@@ -6,19 +6,19 @@ import { IndexRoute, Route } from 'react-router';
 import {
   Home,
   NotFound,
-} from '../containers';
+} from 'containers';
 
-import AppLayout from '../layouts/AppLayout';
+import AppLayout from 'layouts/AppLayout';
 import routeFactories from './routeFactories';
 
 // import from components
 import {
   RightSidebar,
   Ad
-} from '../components';
+} from 'components';
 
 // import from utils
-import { createComponent } from '../utils/component';
+import { createComponent } from 'utils/component';
 
 const rightSidebar = (props = { components: [Ad] }) => createComponent(RightSidebar, props);
 
