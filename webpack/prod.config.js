@@ -8,7 +8,8 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var strip = require('strip-loader');
 
 var projectRootPath = path.resolve(__dirname, '../');
-var assetsPath = path.resolve(projectRootPath, './static/dist');
+var srcPath = path.resolve(projectRootPath, 'src');
+var distPath = path.resolve(projectRootPath, 'static/dist');
 
 // https://github.com/halt-hammerzeit/webpack-isomorphic-tools
 var WebpackIsomorphicToolsPlugin = require('webpack-isomorphic-tools/plugin');
@@ -23,7 +24,7 @@ module.exports = {
     ]
   },
   output: {
-    path: assetsPath,
+    path: distPath,
     filename: '[name]-[chunkhash].js',
     chunkFilename: '[name]-[chunkhash].js',
     publicPath: '/dist/'
@@ -32,7 +33,16 @@ module.exports = {
     loaders: [
       { test: /\.jsx?$/, exclude: /node_modules/, loaders: [strip.loader('debug'), 'babel']},
       { test: /\.json$/, loader: 'json-loader' },
-      { test: /\.scss$/, loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=2&sourceMap!autoprefixer?browsers=last 2 version!sass?outputStyle=expanded&sourceMap=true&sourceMapContents=true') },
+      {
+        test: /\.scss$/,
+        loader: ExtractTextPlugin.extract(
+          'style',
+          [
+            'css?modules&importLoaders=2&sourceMap!autoprefixer?browsers=last 2 version',
+            'sass?outputStyle=expanded&sourceMap=true&sourceMapContents=true&includePaths[]=' + srcPath
+          ].join('!')
+        )
+      },
       { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" },
       { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/font-woff" },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: "url?limit=10000&mimetype=application/octet-stream" },
@@ -47,10 +57,21 @@ module.exports = {
       'src',
       'node_modules'
     ],
-    extensions: ['', '.json', '.js', '.jsx']
+    extensions: ['', '.json', '.js', '.jsx'],
+    alias: {
+      components: path.resolve(srcPath, 'components'),
+      constants: path.resolve(srcPath, 'constants'),
+      containers: path.resolve(srcPath, 'containers'),
+      helpers: path.resolve(srcPath, 'helpers'),
+      layouts: path.resolve(srcPath, 'layouts'),
+      reducers: path.resolve(srcPath, 'reducers'),
+      routes: path.resolve(srcPath, 'routes'),
+      styles: path.resolve(srcPath, 'styles'),
+      utils: path.resolve(srcPath, 'utils')
+    }
   },
   plugins: [
-    new CleanPlugin([assetsPath], { root: projectRootPath }),
+    new CleanPlugin([distPath], { root: projectRootPath }),
 
     // css files from the extract-text-plugin loader
     new ExtractTextPlugin('[name]-[chunkhash].css', {allChunks: true}),

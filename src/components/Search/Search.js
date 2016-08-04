@@ -1,8 +1,19 @@
-import React from 'react';
+import React, { PropTypes as toBe } from 'react';
 
 import classes from './search.scss';
 
 export default class Seach extends React.Component {
+  static propTypes = {
+    placeholder: toBe.string
+  };
+
+  static defaultProps = {
+    placeholder: 'Поиск...'
+  };
+  constructor(props) {
+    super(props);
+    this.searchByKey = this.searchByKey.bind(this);
+  }
 
   searchByKey(event) {
     console.log(event.target.value);
@@ -13,9 +24,9 @@ export default class Seach extends React.Component {
       <section className={classes.search}>
         <input
           type="serch"
-          placeholder="Поиск..."
+          placeholder={this.props.placeholder}
           className={classes.input}
-          onChange={::this.searchByKey}
+          onChange={this.searchByKey}
         />
       </section>
     );
