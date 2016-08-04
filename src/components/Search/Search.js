@@ -10,12 +10,8 @@ export default class Seach extends React.Component {
   static defaultProps = {
     placeholder: 'Поиск...'
   };
-  constructor(props) {
-    super(props);
-    this.searchByKey = this.searchByKey.bind(this);
-  }
 
-  searchByKey(event) {
+  searchByKey = (event) => {
     console.log(event.target.value);
   }
 
