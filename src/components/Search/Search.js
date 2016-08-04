@@ -13,10 +13,10 @@ export default class Seach extends React.Component {
       <section className={classes.search}>
         <input
           type="serch"
+          placeholder="Поиск..."
           className={classes.input}
           onChange={::this.searchByKey}
         />
-      <div>{ this.state.mathes }</div>
       </section>
     );
   }
