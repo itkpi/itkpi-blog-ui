@@ -1,0 +1,11 @@
+@import "styles/vars/colors";
+
+.circleImage {
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  border: 2px solid $text-extra-light;
+  flex-shrink: 0;
+}
