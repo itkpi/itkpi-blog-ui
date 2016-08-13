@@ -1,28 +1,24 @@
 #!/usr/bin/env node
+
 require('../server.babel'); // babel registration (runtime transpilation for node)
-var path = require('path');
-var rootDir = path.resolve(__dirname, '..');
+const config = require('../config/config');
+
 /**
  * Define isomorphic constants.
  */
-global.__CLIENT__ = false;
-global.__SERVER__ = true;
-global.__DISABLE_SSR__ = false;  // <----- DISABLES SERVER SIDE RENDERING FOR ERROR DEBUGGING
-global.__DEVELOPMENT__ = process.env.NODE_ENV !== 'production';
+const globalConstants = config.get('global');
+global.__CLIENT__ = globalConstants.CLIENT;
+global.__SERVER__ = globalConstants.SERVER;
+global.__DISABLE_SSR__ = globalConstants.DISABLE_SSR;
+global.__DEVELOPMENT__ = globalConstants.DEVELOPMENT;
 
 if (__DEVELOPMENT__) {
-  if (!require('piping')({
-      hook: true,
-      ignore: /(\/\.|~$|\.json|\.scss$)/i
-    })) {
-    return;
-  }
+  if (!require('piping')({ hook: true })) { return; }
 }
 
-// https://github.com/halt-hammerzeit/webpack-isomorphic-tools
-var WebpackIsomorphicTools = require('webpack-isomorphic-tools');
-global.webpackIsomorphicTools = new WebpackIsomorphicTools(require('../webpack/webpack-isomorphic-tools'))
+const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
+const WITConfig = require('../webpack/webpack-isomorphic-tools');
+
+global.webpackIsomorphicTools = new WebpackIsomorphicTools(WITConfig)
   .development(__DEVELOPMENT__)
-  .server(rootDir, function() {
-    require('../src/server');
-  });
+  .server(config.get('dir_root'), () => { require('../src/server'); });
