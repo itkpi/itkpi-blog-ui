@@ -23,7 +23,7 @@ export default class Articles extends React.Component {
       <div className={classes.articleInfo} >
         <CircleImage src={this.props.authorImage} />
         <div className={classes.container} >
-          <div className={classes.authorName}> { this.props.authorName } </div>
+          <div className={classes.authorName}>{ this.props.authorName }</div>
           <Time time={this.props.createTime} />
         </div>
       </div>
