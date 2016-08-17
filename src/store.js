@@ -1,9 +1,9 @@
-import { createStore as _createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import createMiddleware from './middleware/clientMiddleware';
 import { routerMiddleware } from 'react-router-redux';
 import reducer from './reducers';
 
-export default function createStore(history, client, data) {
+export default function(history, client, data) {
   // Sync dispatched route actions to the history
   const reduxRouterMiddleware = routerMiddleware(history);
 
@@ -14,18 +14,18 @@ export default function createStore(history, client, data) {
     finalCreateStore = compose(
       applyMiddleware(...middleware),
       window.devToolsExtension ? window.devToolsExtension() : f => f
-    )(_createStore);
+    )(createStore);
   } else {
-    finalCreateStore = applyMiddleware(...middleware)(_createStore);
+    finalCreateStore = applyMiddleware(...middleware)(createStore);
   }
 
   const store = finalCreateStore(reducer, data);
 
-  if (__DEVELOPMENT__ && module.hot) {
-    module.hot.accept('./reducers', () => {
-      store.replaceReducer(require('./reducers'));
-    });
-  }
+  // if (__DEVELOPMENT__ && module.hot) {
+  //   module.hot.accept('./reducers', () => {
+  //     store.replaceReducer(require('./reducers'));
+  //   });
+  // }
 
   return store;
 }

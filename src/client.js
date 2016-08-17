@@ -17,7 +17,6 @@ import getRoutes from 'routes/routes';
 
 const client = new ApiClient();
 const _browserHistory = useScroll(() => browserHistory)();
-const dest = document.getElementById('app-root');
 const store = createStore(_browserHistory, client, window.__data);
 const history = syncHistoryWithStore(_browserHistory, store);
 
@@ -29,6 +28,8 @@ const component = (
     { getRoutes(store) }
   </Router>
 );
+
+const dest = document.getElementById('app-root');
 
 ReactDOM.render(
   <Provider store={store} key="provider">

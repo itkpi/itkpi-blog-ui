@@ -65,7 +65,7 @@
       }
     },
     "build": {
-      "command": "webpack --verbose --colors --display-error-details --config webpack/prod.config.js",
+      "command": "webpack --verbose --colors --display-error-details --config webpack/config/prod.config.js",
       "env": {
         "NODE_ENV": "production"
       }
@@ -139,7 +139,7 @@
     "phantomjs": "^1.9.18",
     "phantomjs-polyfill": "0.0.1",
     "react-addons-test-utils": "^15.0.2",
-    "react-transform-hmr": "^1.0.1",
+    "react-transform-hmr": "1.0.4",
     "sass-loader": "3.1.2",
     "sinon": "^1.17.2",
     "strip-loader": "^0.1.0",

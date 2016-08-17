@@ -1,33 +1,44 @@
-const Express = require('express');
 const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+
+const express = require('express');
 
 const config = require('../src/config');
-const webpackConfig = require('./dev.config');
-const compiler = webpack(webpackConfig);
 
 const host = config.host || 'localhost';
 const port = (Number(config.port) + 1) || 3001;
-const serverOptions = {
-  contentBase: 'http://' + host + ':' + port,
-  quiet: true,
-  noInfo: true,
-  hot: true,
-  inline: true,
-  lazy: false,
-  publicPath: webpackConfig.output.publicPath,
-  headers: {'Access-Control-Allow-Origin': '*'},
-  stats: { colors: true }
+
+const webpackConfig = require('./config/dev.config.js');
+
+const devServerOptions = {
+  quiet       : true, // don’t output anything to the console
+  noInfo      : true, // suppress boring information
+  hot         : false, // adds the HotModuleReplacementPlugin and switch the server to hot mode. Note: make sure you don’t add HotModuleReplacementPlugin twice
+  inline      : true, // also adds the webpack/hot/dev-server entry
+
+  // You can use it in two modes:
+  // watch mode (default): The compiler recompiles on file change.
+  // lazy mode: The compiler compiles on every request to the entry point.
+  lazy        : false,
+
+  // network path for static files: fetch all statics from webpack development server
+  publicPath  : webpackConfig.output.publicPath,
+
+  headers     : { 'Access-Control-Allow-Origin': '*' },
+  stats       : { colors: true }
 };
 
-const app = new Express();
+const devServer = new express();
+const compiler = webpack(webpackConfig);
+devServer.use(webpackDevMiddleware(compiler, devServerOptions));
+devServer.use(webpackHotMiddleware(compiler));
 
-app.use(require('webpack-dev-middleware')(compiler, serverOptions));
-app.use(require('webpack-hot-middleware')(compiler));
-
-app.listen(port, function onAppListening(err) {
-  if (err) {
-    console.error(err);
-  } else {
-    console.info('==> 🚧  Webpack development server listening on port %s', port);
+devServer.listen(port, (error) => {
+  if (error) {
+    console.log(error.stack || error);
+    throw error;
   }
+
+  console.info('==> 🚧  Webpack development server listening on port %s', port);
 });

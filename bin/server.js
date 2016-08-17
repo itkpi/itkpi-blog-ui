@@ -6,19 +6,18 @@ const config = require('../config/config');
 /**
  * Define isomorphic constants.
  */
-const globalConstants = config.get('global');
-global.__CLIENT__ = globalConstants.CLIENT;
-global.__SERVER__ = globalConstants.SERVER;
-global.__DISABLE_SSR__ = globalConstants.DISABLE_SSR;
-global.__DEVELOPMENT__ = globalConstants.DEVELOPMENT;
+const globalConfig = config.get('global');
+global.__CLIENT__ = false;
+global.__SERVER__ = true;
+global.__DISABLE_SSR__ = false; // <-- DISABLES SERVER SIDE RENDERING FOR ERROR DEBUGGING
+global.__DEVELOPMENT__ = globalConfig.DEVELOPMENT;
 
-if (__DEVELOPMENT__) {
-  if (!require('piping')({ hook: true })) { return; }
-}
+// webpack isomorphic tools
+const WITPath = `${config.get('dirs').webpack}/webpack-isomorphic-tools`;
+const WITTools = require(WITPath).getTools();
 
-const WebpackIsomorphicTools = require('webpack-isomorphic-tools');
-const WITConfig = require('../webpack/webpack-isomorphic-tools');
-
-global.webpackIsomorphicTools = new WebpackIsomorphicTools(WITConfig)
-  .development(__DEVELOPMENT__)
-  .server(config.get('dir_root'), () => { require('../src/server'); });
+global.webpackIsomorphicTools = WITTools
+  .development(globalConfig.DEVELOPMENT)
+  .server(config.get('dirs').root, () => {
+    require(`${config.get('dirs').src}/server`);
+  });
