@@ -7,17 +7,14 @@ var CleanPlugin = require('clean-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var strip = require('strip-loader');
 
-const config = require('../../config/config');
+const config = require('../../config/config')('client');
+const globalConfig = config.get('global');
 const WITPlugin = require('../webpack-isomorphic-tools').getPlugin();
 
 module.exports = {
   devtool: 'source-map',
   context: config.get('dirs').root,
-  entry: {
-    'main': [
-      './src/client.js'
-    ]
-  },
+  entry: { main: ['./src/client.js'] },
   output: {
     path: config.get('dirs').dist,
     filename: '[name]-[chunkhash].js',
@@ -26,7 +23,7 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.jsx?$/, exclude: /node_modules/, loaders: [strip.loader('debug'), 'babel']},
+      { test: /\.jsx?$/, exclude: /node_modules/, loaders: [strip.loader('debug'), 'babel'] },
       { test: /\.json$/, loader: 'json-loader' },
       {
         test: /\.scss$/,
@@ -48,37 +45,24 @@ module.exports = {
   },
   progress: true,
   resolve: {
-    modulesDirectories: [
-      'src',
-      'node_modules'
-    ],
+    modulesDirectories: ['src', 'node_modules'],
     extensions: ['', '.json', '.js', '.jsx'],
     alias: config.get('webpack').alias
   },
   plugins: [
-    new CleanPlugin(
-      [config.get('dirs').dist],
-      { root: config.get('dirs').root }
-    ),
-
+    new CleanPlugin([config.get('dirs').dist], { root: config.get('dirs').root }),
     // css files from the extract-text-plugin loader
-    new ExtractTextPlugin(
-      '[name]-[chunkhash].css',
-      { allChunks: true }
-    ),
+    new ExtractTextPlugin('[name]-[chunkhash].css', { allChunks: true }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: '"production"'
       },
-
-      __CLIENT__: true,
-      __SERVER__: false,
+      __CLIENT__: globalConfig.CLIENT,
+      __SERVER__: globalConfig.SERVER,
       __DEVELOPMENT__: false
     }),
-
     // ignore dev config
     new webpack.IgnorePlugin(/\.\/dev/, /\/config$/),
-
     // optimizations
     new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
@@ -87,7 +71,6 @@ module.exports = {
         warnings: false
       }
     }),
-
     WITPlugin
   ]
 };

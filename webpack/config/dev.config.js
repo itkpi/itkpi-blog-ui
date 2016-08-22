@@ -1,9 +1,11 @@
 require('babel-polyfill');
+
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 
-const config = require('../../config/config');
+const config = require('../../config/config')('client');
+const globalConfig = config.get('global');
 const WITPlugin = require('../webpack-isomorphic-tools').getPlugin();
 
 // Read and try to parse .babelrc file.
@@ -89,10 +91,7 @@ module.exports = {
         exclude: /node_modules/,
         loaders: ['babel?' + JSON.stringify(babelLoaderQuery), 'eslint-loader']
       },
-      {
-        test: /\.json$/,
-        loader: 'json-loader'
-      },
+      { test: /\.json$/, loader: 'json-loader' },
       {
         test: /\.scss$/,
         loaders: [
@@ -102,38 +101,17 @@ module.exports = {
           `sass-loader?outputStyle=expanded&sourceMap&includePaths[]=${config.get('dirs').src}`
         ]
       },
-      {
-        test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-        loader: "url?limit=10000&mimetype=application/font-woff"
-      },
-      {
-        test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-        loader: "url?limit=10000&mimetype=application/font-woff"
-      },
-      {
-        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        loader: "url?limit=10000&mimetype=application/octet-stream"
-      },
-      {
-        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        loader: "file"
-      },
-      {
-        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        loader: "url?limit=10000&mimetype=image/svg+xml"
-      },
-      {
-        test: WITPlugin.regular_expression('images'),
-        loader: 'url-loader?limit=10240'
-      }
+      { test: /\.woff(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
+      { test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
+      { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream'},
+      { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: "file" },
+      { test: /\.svg(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=image/svg+xml' },
+      { test: WITPlugin.regular_expression('images'), loader: 'url-loader?limit=10240' }
     ]
   },
   progress: true,
   resolve: {
-    modulesDirectories: [
-      'src',
-      'node_modules'
-    ],
+    modulesDirectories: ['src', 'node_modules'],
     extensions: ['', '.json', '.js', '.jsx'],
     alias: config.get('webpack').alias
   },
@@ -142,8 +120,8 @@ module.exports = {
     new webpack.NoErrorsPlugin(),
     new webpack.IgnorePlugin(/webpack-stats\.json$/),
     new webpack.DefinePlugin({
-      __CLIENT__: true,
-      __SERVER__: false,
+      __CLIENT__: globalConfig.CLIENT,
+      __SERVER__: globalConfig.SERVER,
       __DEVELOPMENT__: true
     }),
     WITPlugin.development()
