@@ -35,7 +35,7 @@ app.use(Express.static(path.join(__dirname, '..', 'static')));
 
 // Proxy to API server
 app.use('/api', (req, res) => {
-  proxy.web(req, res, {target: targetUrl});
+  proxy.web(req, res, { target: targetUrl });
 });
 
 // added the error handling to avoid https://github.com/nodejitsu/node-http-proxy/issues/527
@@ -44,7 +44,7 @@ proxy.on('error', (error, req, res) => {
     console.error('proxy error', error);
   }
   if (!res.headersSent) {
-    res.writeHead(500, {'content-type': 'application/json'});
+    res.writeHead(500, { 'content-type': 'application/json' });
   }
 
   const json = { error: 'proxy_error', reason: error.message };
