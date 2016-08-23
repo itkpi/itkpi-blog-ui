@@ -21,10 +21,16 @@ const store = createStore(_browserHistory, client, window.__data);
 const history = syncHistoryWithStore(_browserHistory, store);
 
 const component = (
-  <Router render={(props) => (
-    <ReduxAsyncConnect { ...props } helpers={{client}} filter={item => !item.deferred} />
-    )}
-    history={history}>
+  <Router render={
+    (props) =>
+      <ReduxAsyncConnect
+        { ...props }
+        helpers={{ client }}
+        filter={item => !item.deferred}
+      />
+    }
+    history={history}
+  >
     { getRoutes(store) }
   </Router>
 );
