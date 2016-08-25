@@ -1,14 +1,32 @@
-.descriptionImage{
-  &:before{
+@import "styles/vars/colors";
+
+.image {
+  width: 100%;
+}
+
+.circleImage {
+  background-position: center;
+  background-size: cover;
+  border-radius: 50%;
+  height: 60px;
+  width: 60px;
+  border: 2px solid $text-extra-light;
+  flex-shrink: 0;
+}
+
+.descriptionImage {
+  &:before {
     content: '';
     display: block;
     padding-bottom: 50%;
   }
+
   width: 100%;
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
+
   > .title {
     position: absolute;
     display: inline-block;
