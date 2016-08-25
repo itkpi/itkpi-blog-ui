@@ -1,7 +1,8 @@
-import React, {Component, PropTypes} from 'react';
+import React, { PropTypes as toBe } from 'react';
 import ReactDOM from 'react-dom/server';
 import serialize from 'serialize-javascript';
 import Helmet from 'react-helmet';
+import _ from 'lodash/fp';
 
 /**
  * Wrapper component containing HTML metadata and boilerplate tags.
@@ -12,12 +13,12 @@ import Helmet from 'react-helmet';
  * HTML doctype declaration, which is added to the rendered output
  * by the server.js file.
  */
-export default class Root extends Component {
+export default class Root extends React.Component {
 
   static propTypes = {
-    assets: PropTypes.object,
-    component: PropTypes.node,
-    store: PropTypes.object
+    assets: toBe.object,
+    component: toBe.node,
+    store: toBe.object
   };
 
   renderStyles() {
@@ -36,23 +37,27 @@ export default class Root extends Component {
     ));
   }
 
+  renderHead() {
+    const head = Helmet.rewind();
+    const headPropsToExtract = ['base', 'title', 'meta', 'link', 'script'];
+    const headItems = headPropsToExtract.map(property => head[property].toComponent());
+
+    return (
+      <head>
+        { headItems }
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        { this.renderStyles() }
+      </head>
+    );
+  }
+
   render() {
     const { assets, component, store } = this.props;
     const content = component ? ReactDOM.renderToString(component) : '';
-    const head = Helmet.rewind();
 
     return (
       <html lang="en-us">
-        <head>
-          { head.base.toComponent() }
-          { head.title.toComponent() }
-          { head.meta.toComponent() }
-          { head.link.toComponent() }
-          { head.script.toComponent() }
-
-          <meta name="viewport" content="width=device-width, initial-scale=1" />
-          { this.renderStyles() }
-        </head>
+        { this.renderHead() }
         <body>
           <div id="app-root" dangerouslySetInnerHTML={{ __html: content }} />
           <script

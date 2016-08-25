@@ -17,18 +17,25 @@ import getRoutes from 'routes/routes';
 
 const client = new ApiClient();
 const _browserHistory = useScroll(() => browserHistory)();
-const dest = document.getElementById('app-root');
 const store = createStore(_browserHistory, client, window.__data);
 const history = syncHistoryWithStore(_browserHistory, store);
 
 const component = (
-  <Router render={(props) => (
-    <ReduxAsyncConnect { ...props } helpers={{client}} filter={item => !item.deferred} />
-    )}
-    history={history}>
+  <Router render={
+    (props) =>
+      <ReduxAsyncConnect
+        { ...props }
+        helpers={{ client }}
+        filter={item => !item.deferred}
+      />
+    }
+    history={history}
+  >
     { getRoutes(store) }
   </Router>
 );
+
+const dest = document.getElementById('app-root');
 
 ReactDOM.render(
   <Provider store={store} key="provider">
@@ -43,17 +50,4 @@ if (process.env.NODE_ENV !== 'production') {
   if (!dest || !dest.firstChild || !dest.firstChild.attributes || !dest.firstChild.attributes['data-react-checksum']) {
     console.error('Server-side React render was discarded. Make sure that your initial render does not contain any client-side code.');
   }
-}
-
-if (__DEVTOOLS__ && !window.devToolsExtension) {
-  const DevTools = require('./containers/DevTools/DevTools');
-  ReactDOM.render(
-    <Provider store={store} key="provider">
-      <div>
-        { component }
-        <DevTools />
-      </div>
-    </Provider>,
-    dest
-  );
 }
