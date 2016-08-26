@@ -12,9 +12,10 @@ import {
 // import from styles
 import classes from './home.scss';
 
-import articlesFixtures from './articles.fixtures';
+// import from constants
+import { ARTICLES_AMOUNT } from 'constants/home';
 
-const ARTICLES_AMOUNT = 5;
+import articlesFixtures from './articles.fixtures';
 
 export default class Home extends React.Component {
 
