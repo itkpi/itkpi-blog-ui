@@ -33,7 +33,7 @@ export default class ArticleTeaser extends React.Component {
           <div className={classes.author}>
             { `${firstName} ${lastName}` }
           </div>
-          <DateTime dateTime={postedAt} />
+          <DateTime timestamp={postedAt} />
         </div>
       </div>
     );
