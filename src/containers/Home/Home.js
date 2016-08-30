@@ -44,20 +44,22 @@ export default class Home extends React.Component {
   renderArticleList() {
     const { articles } = this.props;
 
-    if (!articles) { return []; }
+    if (!articles) {
+      return (
+        <div className={classes.list}>
+        </div>
+      );
+    }
 
     const [first, ...tail] = articles.slice(0, ARTICLES_AMOUNT - 1);
-    const list = [];
 
     // Each key must be unique. TODO: use id of an article in the near future.
-    if (first) {
-      list.push(<ArticleTeaser key={0} isLead { ...first } />);
-    }
-    if (tail) {
-      tail.forEach((article, idx) => list.push(<ArticleTeaser key={idx + 1} { ...article } />));
-    }
-
-    return list;
+    return (
+      <div className={classes.list}>
+        { first && <ArticleTeaser key={0} isLead { ...first } /> }
+        { tail && tail.map((article, idx) => <ArticleTeaser key={idx + 1} { ...article } />) }
+      </div>
+    );
   }
 
   render() {
@@ -69,9 +71,7 @@ export default class Home extends React.Component {
           <Label text={this.props.label} />
           <ThemeLabel text={this.props.themeLabel} />
 
-          <div className={classes.list}>
-            { this.renderArticleList() }
-          </div>
+          { this.renderArticleList() }
         </div>
       </div>
     );
