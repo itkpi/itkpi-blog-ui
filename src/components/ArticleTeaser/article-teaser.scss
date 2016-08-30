@@ -1,0 +1,38 @@
+@import "styles/vars/colors";
+
+.articleTeaser {
+  position: relative;
+  flex-basis: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+  &.small {
+    flex-basis: 33%;
+  }
+
+  .articleInfo {
+    display: flex;
+    align-items: flex-end;
+    margin-left: 20px;
+    margin-bottom: 20px;
+    position: relative;
+    top: -27px;
+
+    > .container {
+      flex-basis: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+
+      > .author {
+        font-size: 16px;
+        color: $dark-grey;
+      }
+    }
+  }
+
+  > .description {
+    color: $text-middle-between-middle-and-dark;
+    line-height: 1.5em;
+  }
+}

@@ -4,3 +4,8 @@ export Search from './Search/Search';
 export IconLink from './IconLink/IconLink';
 export LeftSidebar from './LeftSidebar/LeftSidebar';
 export RightSidebar from './RightSidebar/RightSidebar';
+export ArticleTeaser from './ArticleTeaser/ArticleTeaser';
+export DateTime from './DateTime/DateTime';
+export Label from './Label/Label';
+export ThemeLabel from './ThemeLabel/ThemeLabel';
+export Image from './Image/Image';

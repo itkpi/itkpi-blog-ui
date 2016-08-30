@@ -1,0 +1,10 @@
+@import "styles/vars/colors";
+
+
+.themeLabel {
+  color: $label-backround;
+  font-size: 14px;
+  text-transform: capitalize;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}

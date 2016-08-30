@@ -1,7 +1,7 @@
 @import "styles/vars/sizes";
 
 .appLayout {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -19,7 +19,11 @@
       padding: 0 2rem 0;
     }
 
-    .center {  }
+    .center {
+      margin-top: 39px;
+      padding-left: 45px;
+      padding-right: 45px;
+    }
     .right {  }
   }
 
