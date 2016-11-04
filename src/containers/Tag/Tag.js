@@ -5,7 +5,7 @@ import Helmet from 'react-helmet';
 
 // import from components
 // import from styles
-import classes from './tag.scss';
+import styles from './tag.scss';
 
 // import from constants
 
@@ -26,4 +26,4 @@ class Tag extends React.Component {
   }
 }
 
-export default withStyles(classes)(Tag);
+export default withStyles(styles)(Tag);

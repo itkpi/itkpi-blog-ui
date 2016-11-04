@@ -3,7 +3,7 @@ import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 // import from styles
-import classes from './left-sidebar.scss';
+import styles from './left-sidebar.scss';
 
 const leftSidebarWidths = {
   opened: 310,
@@ -32,7 +32,7 @@ class LeftSidebar extends React.Component {
   render() {
     return (
       <div
-        className={classes.leftSidebar}
+        className={styles.leftSidebar}
         style={{ width: this.containerWidth() }}
         onMouseEnter={this.openSidebar}
         onMouseLeave={this.closeSidebar}
@@ -44,4 +44,4 @@ class LeftSidebar extends React.Component {
 
 }
 
-export default withStyles(classes)(LeftSidebar);
+export default withStyles(styles)(LeftSidebar);

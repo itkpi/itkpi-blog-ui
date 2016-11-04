@@ -5,7 +5,7 @@ import Helmet from 'react-helmet';
 
 // import from components
 // import from styles
-import classes from './post.scss';
+import styles from './post.scss';
 
 // import from constants
 
@@ -26,4 +26,4 @@ class Post extends React.Component {
   }
 }
 
-export default withStyles(classes)(Post);
+export default withStyles(styles)(Post);

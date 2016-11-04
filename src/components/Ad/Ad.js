@@ -3,7 +3,7 @@ import React, { PropTypes as toBe } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 // import from styles
-import classes from './ad.scss';
+import styles from './ad.scss';
 
 class Ad extends React.Component {
   static propTypes = {
@@ -20,16 +20,16 @@ class Ad extends React.Component {
     const { imageSrc, text } = this.props;
     return imageSrc
       ? <img src={imageSrc} />
-      : <div className={classes.text}>{ text }</div>;
+      : <div className={styles.text}>{ text }</div>;
   }
 
   render() {
     return (
-      <section className={classes.ad}>
+      <section className={styles.ad}>
         { this.renderAd() }
       </section>
     );
   }
 }
 
-export default withStyles(classes)(Ad);
+export default withStyles(styles)(Ad);

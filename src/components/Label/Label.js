@@ -3,7 +3,7 @@ import React, { PropTypes as toBe } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 // import from styles
-import classes from './label.scss';
+import styles from './label.scss';
 
 class Label extends React.Component {
   static propTypes = {
@@ -16,11 +16,11 @@ class Label extends React.Component {
 
   render() {
     return (
-      <div className={classes.label} >
+      <div className={styles.label} >
         { this.props.text }
       </div>
     );
   }
 }
 
-export default withStyles(classes)(Label);
+export default withStyles(styles)(Label);

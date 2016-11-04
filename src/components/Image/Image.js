@@ -3,7 +3,7 @@ import React, { PropTypes as toBe } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 // import from styles
-import classes from './image.scss';
+import styles from './image.scss';
 
 class Image extends React.Component {
 
@@ -26,7 +26,7 @@ class Image extends React.Component {
 
     return (
       <div
-        className={classes.circleImage}
+        className={styles.circleImage}
         style={{ backgroundImage: `url(${src})` }}
       />
     );
@@ -37,10 +37,10 @@ class Image extends React.Component {
 
     return (
       <div
-        className={classes.descriptionImage}
+        className={styles.descriptionImage}
         style={{ backgroundImage: `url(${src})` }}
       >
-        { title && <h2 className={classes.title}>{ title }</h2> }
+        { title && <h2 className={styles.title}>{ title }</h2> }
       </div>
     );
   }
@@ -51,8 +51,8 @@ class Image extends React.Component {
     if (isCircle) { return this.renderCircleImage(); }
     if (withTitle) { return this.renderImageWithTitle(); }
 
-    return <img className={classes.image} src={src} />;
+    return <img className={styles.image} src={src} />;
   }
 }
 
-export default withStyles(classes)(Image);
+export default withStyles(styles)(Image);

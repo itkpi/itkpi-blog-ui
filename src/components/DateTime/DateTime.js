@@ -4,7 +4,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import moment from 'moment';
 
 // import from styles
-import classes from './date-time.scss';
+import styles from './date-time.scss';
 
 // import from constants
 import {
@@ -48,11 +48,11 @@ class DateTime extends React.Component {
     const dateTime = momentInstance.format(DEFAULT_DATE_TIME_FORMAT);
 
     return (
-      <time dateTime={dateTime} className={classes.dateTime} >
+      <time dateTime={dateTime} className={styles.dateTime} >
         { date }
       </time>
     );
   }
 }
 
-export default withStyles(classes)(DateTime);
+export default withStyles(styles)(DateTime);

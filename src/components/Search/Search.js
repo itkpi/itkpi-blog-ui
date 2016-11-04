@@ -3,7 +3,7 @@ import React, { PropTypes as toBe } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 // import from styles
-import classes from './search.scss';
+import styles from './search.scss';
 
 class Search extends React.Component {
   static propTypes = {
@@ -20,11 +20,11 @@ class Search extends React.Component {
 
   render() {
     return (
-      <section className={classes.search}>
+      <section className={styles.search}>
         <input
           type="search"
           placeholder={this.props.placeholder}
-          className={classes.input}
+          className={styles.input}
           onChange={this.searchByKey}
         />
       </section>
@@ -33,4 +33,4 @@ class Search extends React.Component {
 
 }
 
-export default withStyles(classes)(Search);
+export default withStyles(styles)(Search);

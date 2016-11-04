@@ -11,8 +11,7 @@ import {
 } from '~components';
 
 // import from styles
-import classes from './home.scss';
-import { fbgClasses } from '~constants/css-classes';
+import styles from './home.scss';
 
 // import from constants
 import { ARTICLES_AMOUNT } from '~constants/home';
@@ -48,7 +47,7 @@ class Home extends React.Component {
 
     if (!articles) {
       return (
-        <div className={classes.list}>
+        <div className={styles.list}>
         </div>
       );
     }
@@ -57,7 +56,7 @@ class Home extends React.Component {
 
     // Each key must be unique. TODO: use id of an article in the near future.
     return (
-      <div className={classes.list}>
+      <div className={styles.list}>
         { first && <ArticleTeaser key={0} isLead { ...first } /> }
         { tail && tail.map((article, idx) => <ArticleTeaser key={idx + 1} { ...article } />) }
       </div>
@@ -69,7 +68,7 @@ class Home extends React.Component {
       <div>
         <Helmet title="Home" />
 
-        <div className={classes.articles}>
+        <div className={styles.articles}>
           <Label text={this.props.label} />
           <ThemeLabel text={this.props.themeLabel} />
 
@@ -80,4 +79,4 @@ class Home extends React.Component {
   }
 }
 
-export default withStyles(classes)(Home);
+export default withStyles(styles)(Home);

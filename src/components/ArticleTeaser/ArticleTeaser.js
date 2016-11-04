@@ -4,8 +4,9 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import classNames from 'classnames';
 
 // import from styles
-import classes from './article-teaser.scss';
+import styles from './article-teaser.scss';
 
+// import from component
 import { Image, DateTime } from '~components';
 
 class ArticleTeaser extends React.Component {
@@ -30,10 +31,10 @@ class ArticleTeaser extends React.Component {
     } = this.props;
 
     return (
-      <div className={classes.articleInfo} >
+      <div className={styles.articleInfo} >
         { image && <Image isCircle src={image} /> }
-        <div className={classes.container} >
-          <div className={classes.author}>
+        <div className={styles.container} >
+          <div className={styles.author}>
             { `${firstName} ${lastName}` }
           </div>
           <DateTime timestamp={postedAt} />
@@ -46,14 +47,14 @@ class ArticleTeaser extends React.Component {
     const { image, description, isLead } = this.props;
 
     const containerClasses = isLead
-      ? classes.articleTeaser
-      : classNames(classes.articleTeaser, classes.small);
+      ? styles.articleTeaser
+      : classNames(styles.articleTeaser, styles.small);
 
     return (
       <article className={containerClasses}>
         <Image src={image} withTitle={isLead} />
         { this.renderArticleInfo() }
-        <div className={classes.description}>
+        <div className={styles.description}>
           { description }
         </div>
       </article>
@@ -61,4 +62,4 @@ class ArticleTeaser extends React.Component {
   }
 }
 
-export default withStyles(classes)(ArticleTeaser);
+export default withStyles(styles)(ArticleTeaser);

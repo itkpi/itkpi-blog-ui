@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './error.scss';
+import styles from './error.scss';
 
 function ErrorPage({ error }) {
   if (process.env.NODE_ENV !== 'production') {
@@ -26,4 +26,4 @@ ErrorPage.propTypes = {
 };
 
 export { ErrorPage as ErrorPageWithoutStyle };
-export default withStyles(s)(ErrorPage);
+export default withStyles(styles)(ErrorPage);

@@ -3,8 +3,9 @@ import React, { PropTypes as toBe } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 // import from styles
-import classes from './footer.scss';
+import styles from './footer.scss';
 
+// import from components
 import { IconLink } from '~components';
 
 import fixtures from './footer.fixtures.js';
@@ -32,12 +33,12 @@ class Footer extends React.Component {
 
   render() {
     return (
-      <footer className={classes.footer} >
-        <hr className={classes.line} />
-        <div className={classes.icons}>
+      <footer className={styles.footer} >
+        <hr className={styles.line} />
+        <div className={styles.icons}>
           { this.renderIcons() }
         </div>
-        <div className={classes.copyright}>
+        <div className={styles.copyright}>
           Copyright © 2016. IT KPI. All Rights Reserved.
         </div>
       </footer>
@@ -45,4 +46,4 @@ class Footer extends React.Component {
   }
 }
 
-export default withStyles(classes)(Footer);
+export default withStyles(styles)(Footer);

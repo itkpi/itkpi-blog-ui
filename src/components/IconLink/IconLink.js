@@ -3,7 +3,7 @@ import React, { PropTypes as toBe } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
 // import from styles
-import classes from './icon-link.scss';
+import styles from './icon-link.scss';
 
 class IconLink extends React.Component {
 
@@ -15,11 +15,11 @@ class IconLink extends React.Component {
   render() {
     const { href, src } = this.props;
     return (
-      <a className={classes.iconLink} href={href}>
-        <img className={classes.icon} src={src} />
+      <a className={styles.iconLink} href={href}>
+        <img className={styles.icon} src={src} />
       </a>
     );
   }
 }
 
-export default withStyles(classes)(IconLink);
+export default withStyles(styles)(IconLink);
