@@ -1,5 +1,8 @@
+// import from vendors
 import React from 'react';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
+// import from styles
 import classes from './left-sidebar.scss';
 
 const leftSidebarWidths = {
@@ -7,7 +10,7 @@ const leftSidebarWidths = {
   closed: 85
 };
 
-export default class LeftSidebar extends React.Component {
+class LeftSidebar extends React.Component {
 
   constructor(props) {
     super(props);
@@ -40,3 +43,5 @@ export default class LeftSidebar extends React.Component {
   }
 
 }
+
+export default withStyles(classes)(LeftSidebar);

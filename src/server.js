@@ -1,121 +1,149 @@
-import Express from 'express';
+// import from vendors
+import 'babel-polyfill';
+import path from 'path';
+import express from 'express';
+import cookieParser from 'cookie-parser';
+import bodyParser from 'body-parser';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import config from './config';
-// import favicon from 'serve-favicon';
-import compression from 'compression';
-import httpProxy from 'http-proxy';
-import path from 'path';
-import createStore from './store';
-import ApiClient from './helpers/ApiClient';
-import Root from './root';
+import { match, RouterContext } from 'react-router';
 import PrettyError from 'pretty-error';
-import http from 'http';
+import Helmet from 'react-helmet';
 
-import { match } from 'react-router';
-import { syncHistoryWithStore } from 'react-router-redux';
-import { ReduxAsyncConnect, loadOnServer } from 'redux-connect';
-import createHistory from 'react-router/lib/createMemoryHistory';
-import { Provider } from 'react-redux';
-import getRoutes from './routes/routes';
+// import from components
+import Html from './components/Html';
+import ContextHolder from './components/ContextHolder';
+import App from './components/App';
 
-const targetUrl = 'http://' + config.apiHost + ':' + config.apiPort;
-const pretty = new PrettyError();
-const app = new Express();
-const server = new http.Server(app);
-const proxy = httpProxy.createProxyServer({
-  target: targetUrl,
-  ws: true
-});
+// import from routes
+import { Error as ErrorPageWithoutStyle } from './containers';
+import errorPageStyle from './containers/Error/error.scss';
+import routes from './routes';
 
-app.use(compression());
-// app.use(favicon(path.join(__dirname, '..', 'static', 'favicon.ico')));
+import assets from './assets'; // eslint-disable-line import/no-unresolved, import/extensions
+import configureStore from './store/configureStore';
+import { setRuntimeVariable } from './modules/runtime';
+import { port } from './config';
 
-app.use(Express.static(path.join(__dirname, '..', 'static')));
+const app = express();
 
-// Proxy to API server
-app.use('/api', (req, res) => {
-  proxy.web(req, res, { target: targetUrl });
-});
+//
+// Tell any CSS tooling (such as Material UI) to use all vendor prefixes if the
+// user agent is not known.
+// -----------------------------------------------------------------------------
+global.navigator = global.navigator || {};
+global.navigator.userAgent = global.navigator.userAgent || 'all';
 
-// added the error handling to avoid https://github.com/nodejitsu/node-http-proxy/issues/527
-proxy.on('error', (error, req, res) => {
-  if (error.code !== 'ECONNRESET') {
-    console.error('proxy error', error);
-  }
-  if (!res.headersSent) {
-    res.writeHead(500, { 'content-type': 'application/json' });
-  }
+//
+// Register Node.js middleware
+// -----------------------------------------------------------------------------
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-  const json = { error: 'proxy_error', reason: error.message };
-  res.end(JSON.stringify(json));
-});
+//
+// Register server-side rendering middleware
+// -----------------------------------------------------------------------------
+app.get('*', async (req, res, next) => {
+  try {
+    const store = configureStore({ }, {
+      cookie: req.headers.cookie,
+    });
 
-app.use((req, res) => {
-  if (__DEVELOPMENT__) {
-    // Do not cache webpack stats: the script file would change since
-    // hot module replacement is enabled in the development env
-    webpackIsomorphicTools.refresh();
-  }
-  const client = new ApiClient(req);
-  const memoryHistory = createHistory(req.originalUrl);
-  const store = createStore(memoryHistory, client);
-  const history = syncHistoryWithStore(memoryHistory, store);
+    store.dispatch(setRuntimeVariable({
+      name: 'initialNow',
+      value: Date.now(),
+    }));
 
-  function hydrateOnClient() {
-    res.send(
-      '<!doctype html>\n' +
-      ReactDOM.renderToString(
-        <Root assets={webpackIsomorphicTools.assets()} store={store} />
-      )
-    );
-  }
+    const css = new Set();
+    const location = req.url;
 
-  if (__DISABLE_SSR__) {
-    hydrateOnClient();
-    return;
-  }
+    // Global (context) variables that can be easily accessed from any React component
+    // https://facebook.github.io/react/docs/context.html
+    const context = {
+      // Enables critical path CSS rendering
+      // https://github.com/kriasoft/isomorphic-style-loader
+      insertCss: (...styles) => {
+        // eslint-disable-next-line no-underscore-dangle
+        styles.forEach(style => css.add(style._getCss()));
+      },
+      // Initialize a new Redux store
+      // http://redux.js.org/docs/basics/UsageWithReact.html
+      store,
+    };
 
-  match({ history, routes: getRoutes(store), location: req.originalUrl }, (error, redirectLocation, renderProps) => {
-    if (redirectLocation) {
-      res.redirect(redirectLocation.pathname + redirectLocation.search);
-    } else if (error) {
-      console.error('ROUTER ERROR:', pretty.render(error));
-      res.status(500);
-      hydrateOnClient();
-    } else if (renderProps) {
-      loadOnServer({ ...renderProps, store, helpers: { client } }).then(() => {
-        const component = (
-          <Provider store={store} key="provider">
-            <ReduxAsyncConnect { ...renderProps } />
-          </Provider>
+    match({ routes, location }, (error, redirectLocation, renderProps) => {
+      if (error) {
+        return next(error);
+      } else if (redirectLocation) {
+        return res.redirect(redirectLocation.pathname + redirectLocation.search, '/');
+      } else if (renderProps) {
+        const helmet = Helmet.rewind();
+
+        const headComponents = Object.values(helmet)
+          .reduce((acc, property) => [...acc, property.toComponent()], [])
+          .filter(array => array.length)
+          .reduce((acc, array) => [...acc, ...array]);
+
+        const content = ReactDOM.renderToString(
+          <ContextHolder context={context}>
+            <App>
+              <RouterContext {...renderProps} />
+            </App>
+          </ContextHolder>
         );
 
-        res.status(200);
+        const data = {
+          style: [...css].join(''),
+          script: assets.main.js,
+          state: context.store.getState(),
+          // chunk: assets[route.chunk] && assets[route.chunk].js,
+          head: headComponents,
+        };
 
-        global.navigator = { userAgent: req.headers['user-agent'] };
-
-        res.send(
-          '<!doctype html>\n' +
-          ReactDOM.renderToString(
-            <Root assets={webpackIsomorphicTools.assets()} component={component} store={store} />
-          )
+        const html = ReactDOM.renderToStaticMarkup(
+          <Html {...data}>
+            { content }
+          </Html>
         );
-      });
-    } else {
-      res.status(404).send('Not found');
-    }
-  });
+        return res.status(200).send(`<!DOCTYPE html>\n${html}`);
+      }
+
+      return res.status(404).send('Not Found');
+    });
+  } catch (err) {
+    next(err);
+  }
 });
 
-if (config.port) {
-  server.listen(config.port, (err) => {
-    if (err) { console.error(err); }
+//
+// Error handling
+// -----------------------------------------------------------------------------
+const pe = new PrettyError();
+pe.skipNodeFiles();
+pe.skipPackage('express');
 
-    console.info('----\n==> ✅  %s is running, talking to API server on %s.', config.app.title, config.apiPort);
-    console.info('==> 💻  Open http://%s:%s in a browser to view the app.', config.host, config.port);
-    console.info('==> 🚀  Server-side rendering:', !__DISABLE_SSR__);
-  });
-} else {
-  console.error('==>     ERROR: No PORT environment variable has been specified');
-}
+app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
+  console.log(pe.render(err)); // eslint-disable-line no-console
+  const html = ReactDOM.renderToStaticMarkup(
+    <Html
+      title="Internal Server Error"
+      description={err.message}
+      style={errorPageStyle._getCss()} // eslint-disable-line no-underscore-dangle
+    >
+      {ReactDOM.renderToString(<ErrorPageWithoutStyle error={err} />)}
+    </Html>
+  );
+  res.status(err.status || 500);
+  res.send(`<!doctype html>${html}`);
+});
+
+//
+// Launch the server
+// -----------------------------------------------------------------------------
+/* eslint-disable no-console */
+app.listen(port, () => {
+  console.log(`The server is running at http://localhost:${port}/`);
+});
+/* eslint-enable no-console */

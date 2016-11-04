@@ -1,11 +1,14 @@
+// import from vendors
 import React, { PropTypes as toBe } from 'react';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import classNames from 'classnames';
 
-import { Image, DateTime } from 'components';
-
+// import from styles
 import classes from './article-teaser.scss';
 
-export default class ArticleTeaser extends React.Component {
+import { Image, DateTime } from '~components';
+
+class ArticleTeaser extends React.Component {
 
   static propTypes = {
     isLead: toBe.bool,
@@ -57,3 +60,5 @@ export default class ArticleTeaser extends React.Component {
     );
   }
 }
+
+export default withStyles(classes)(ArticleTeaser);

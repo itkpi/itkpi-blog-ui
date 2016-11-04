@@ -1,5 +1,6 @@
 // import from vendors
 import React, { PropTypes as toBe } from 'react';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import moment from 'moment';
 
 // import from styles
@@ -9,9 +10,9 @@ import classes from './date-time.scss';
 import {
   DEFAULT_DATE_FORMAT,
   DEFAULT_DATE_TIME_FORMAT
-} from 'constants/common';
+} from '~constants/common';
 
-export default class DateTime extends React.Component {
+class DateTime extends React.Component {
 
   static propTypes = {
     timestamp: toBe.number
@@ -53,3 +54,5 @@ export default class DateTime extends React.Component {
     );
   }
 }
+
+export default withStyles(classes)(DateTime);

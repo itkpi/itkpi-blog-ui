@@ -1,8 +1,7 @@
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux';
-import { reducer as reduxAsyncConnect } from 'redux-connect';
+
+import runtime from '~modules/runtime';
 
 export default combineReducers({
-  routing: routerReducer,
-  reduxAsyncConnect
+  runtime,
 });

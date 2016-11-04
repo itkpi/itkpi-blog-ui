@@ -1,0 +1,30 @@
+@import "~styles/vars/sizes";
+
+.appLayout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  > .page,
+  > .footer {
+    padding-left: $sidebar-normal-size;
+  }
+
+  > .page {
+    height: 100%;
+    padding-left: $sidebar-normal-size;
+
+    > .main {
+      padding: 0 2rem 0;
+    }
+
+    .center {
+      margin-top: 39px;
+      padding-left: 45px;
+      padding-right: 45px;
+    }
+    .right {  }
+  }
+
+}

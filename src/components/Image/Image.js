@@ -1,8 +1,11 @@
+// import from vendors
 import React, { PropTypes as toBe } from 'react';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
+// import from styles
 import classes from './image.scss';
 
-export default class Image extends React.Component {
+class Image extends React.Component {
 
   static propTypes = {
     src: toBe.string.isRequired,
@@ -51,3 +54,5 @@ export default class Image extends React.Component {
     return <img className={classes.image} src={src} />;
   }
 }
+
+export default withStyles(classes)(Image);

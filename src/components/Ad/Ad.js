@@ -1,8 +1,11 @@
+// import from vendors
 import React, { PropTypes as toBe } from 'react';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
+// import from styles
 import classes from './ad.scss';
 
-export default class Ad extends React.Component {
+class Ad extends React.Component {
   static propTypes = {
     imageSrc: toBe.string,
     text: toBe.string
@@ -28,3 +31,5 @@ export default class Ad extends React.Component {
     );
   }
 }
+
+export default withStyles(classes)(Ad);

@@ -1,4 +1,4 @@
-import { range } from 'utils/collection';
+import { range } from '~utils/collection';
 
 const article = {
   image: 'https://pp.vk.me/c7008/v7008296/4ad29/mO7ls1KcejQ.jpg',

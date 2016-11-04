@@ -1,11 +1,15 @@
+// import from vendors
 import React, { PropTypes as toBe } from 'react';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 
-import { IconLink } from 'components';
-
-import fixtures from './footer.fixtures.js';
+// import from styles
 import classes from './footer.scss';
 
-export default class Footer extends React.Component {
+import { IconLink } from '~components';
+
+import fixtures from './footer.fixtures.js';
+
+class Footer extends React.Component {
 
   static propTypes = {
     icons: toBe.array
@@ -40,3 +44,5 @@ export default class Footer extends React.Component {
     );
   }
 }
+
+export default withStyles(classes)(Footer);

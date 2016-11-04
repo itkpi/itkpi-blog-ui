@@ -1,5 +1,6 @@
 // import from vendors
 import React, { PropTypes as toBe } from 'react';
+import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Helmet from 'react-helmet';
 
 // import from components
@@ -7,17 +8,18 @@ import {
   ArticleTeaser,
   Label,
   ThemeLabel
-} from 'components';
+} from '~components';
 
 // import from styles
 import classes from './home.scss';
+import { fbgClasses } from '~constants/css-classes';
 
 // import from constants
-import { ARTICLES_AMOUNT } from 'constants/home';
+import { ARTICLES_AMOUNT } from '~constants/home';
 
 import articlesFixtures from './articles.fixtures';
 
-export default class Home extends React.Component {
+class Home extends React.Component {
 
   static propTypes = {
     label: toBe.string,
@@ -77,3 +79,5 @@ export default class Home extends React.Component {
     );
   }
 }
+
+export default withStyles(classes)(Home);
