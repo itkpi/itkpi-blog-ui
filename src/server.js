@@ -7,6 +7,7 @@ import bodyParser from 'body-parser';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { match, RouterContext } from 'react-router';
+import { Provider } from 'react-redux';
 import PrettyError from 'pretty-error';
 import Helmet from 'react-helmet';
 
@@ -87,11 +88,13 @@ app.get('*', async (req, res, next) => {
           .reduce((acc, array) => [...acc, ...array]);
 
         const content = ReactDOM.renderToString(
-          <ContextHolder context={context}>
-            <App>
-              <RouterContext {...renderProps} />
-            </App>
-          </ContextHolder>
+          <Provider store={store}>
+            <ContextHolder context={context}>
+              <App>
+                <RouterContext {...renderProps} />
+              </App>
+            </ContextHolder>
+          </Provider>
         );
 
         const data = {

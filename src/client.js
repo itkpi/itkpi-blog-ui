@@ -4,9 +4,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import FastClick from 'fastclick';
 import { Router } from 'react-router';
+import { Provider } from 'react-redux';
 import ContextHolder from './components/ContextHolder';
 import history from './utils/history';
 import configureStore from './store/configureStore';
+
+const store = configureStore(window.APP_STATE, { history });
 
 // Global (context) variables that can be easily accessed from any React component
 // https://facebook.github.io/react/docs/context.html
@@ -20,7 +23,7 @@ const context = {
   },
   // Initialize a new Redux store
   // http://redux.js.org/docs/basics/UsageWithReact.html
-  store: configureStore(window.APP_STATE, { history }),
+  store
 };
 
 // Switch off the native scroll restoration behavior and handle it manually
@@ -89,9 +92,11 @@ async function onLocationChange(location) {
     // key={Math.random()} - quick fix of HMR. TODO: try to figure out what is going on here.
     // related issue: https://github.com/ReactTraining/react-router/issues/2704
     ReactDOM.render(
-      <ContextHolder context={context}>
-        <Router key={Math.random()} history={history} routes={routes} />
-      </ContextHolder>,
+      <Provider store={store}>
+        <ContextHolder context={context}>
+          <Router key={Math.random()} history={history} routes={routes} />
+        </ContextHolder>
+      </Provider>,
       document.getElementById('app'),
       () => onRenderComplete(location)
     );
